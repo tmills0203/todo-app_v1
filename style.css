@@ -14,10 +14,24 @@ body {
   margin: 0;
 }
 
+small {
+  color: rgb(41, 10, 10);
+  margin-top: 3rem;
+  text-align: center;
+}
+
 /* INPUT */
 #input {
-  font-size: 1.5rem;
+  border: rgba(68, 68, 68, 0.452);
+  color: #444;
+  font-size: 2rem;
   padding: 1rem 1rem;
+  display: block;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: #d5d5d5d5;
 }
 
 /* TODOS */
