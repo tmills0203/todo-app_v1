@@ -3,20 +3,22 @@
 const form = document.querySelector("#form");
 const input = document.querySelector("#input");
 const todoUL = document.querySelector("#todos");
-console.log(todoUL);
+
+const todos = JSON.parse(localStorage.getItem("todos"));
+console.log(todos);
+
+// localstorage
+if (todos) {
+  for (let i = 0; i < todos.length; i++) {
+    addTodo(todos[i]);
+  }
+  // todos.forEach((todo) => addTodo(todo));
+}
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   addTodo();
 });
-
-// - Add new todos to the list
-// - Mark todos as complete
-//   b. add animation on the checkbox
-// - Delete todos from the list
-// - Filter by all/active/complete todos
-// - Clear all completed todos
-// - Toggle light and dark mode
 
 // add todo
 function addTodo(todo) {
@@ -39,9 +41,35 @@ function addTodo(todo) {
     todoUL.appendChild(li);
 
     // adds or remove completed to todo
-    li.addEventListener("click", () => li.classList.toggle("completed"));
+    li.addEventListener("click", () => {
+      li.classList.toggle("completed");
+      updateLS();
+    });
+
+    // remove li by clicking on the right mouse button
+    li.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      li.remove();
+      updateLS();
+    });
 
     input.value = "";
+
+    updateLS();
   }
-  console.log(todoInput);
+}
+
+// put todos in local storage
+function updateLS() {
+  const li = document.querySelectorAll("li");
+  const todos = [];
+
+  li.forEach((li) => {
+    todos.push({
+      text: li.innerText,
+      completed: li.classList.contains("completed"),
+    });
+  });
+
+  localStorage.setItem("todos", JSON.stringify(todos));
 }
